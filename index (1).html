@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deepa Sadhana – Gayatri Peetham Trust</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #F5C842;
+      --gold-deep: #D4A017;
+      --gold-light: #FDE882;
+      --gold-pale: #FFF8DC;
+      --amber: #E8900A;
+      --saffron: #FF8C00;
+      --crimson: #C0392B;
+      --cream: #FFFBF0;
+      --brown-dark: #3B1F00;
+      --brown-mid: #7A4510;
+      --brown-light: #C47B2B;
+      --white: #FFFFFF;
+      --shadow-gold: rgba(212,160,23,0.4);
+      --flame1: #FF4500;
+      --flame2: #FF8C00;
+      --flame3: #FFD700;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: var(--cream);
+      color: var(--brown-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 120% 60% at 50% 0%, #FDE88244 0%, transparent 60%),
+        radial-gradient(ellipse 80% 80% at 80% 100%, #F5C84222 0%, transparent 55%),
+        radial-gradient(ellipse 60% 60% at 10% 80%, #FF8C0011 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Top border ── */
+    .top-border {
+      height: 8px;
+      background: linear-gradient(90deg,
+        var(--brown-dark) 0%, var(--gold) 20%, var(--amber) 40%,
+        var(--gold) 60%, var(--amber) 80%, var(--brown-dark) 100%);
+      position: relative; z-index: 10;
+    }
+
+    /* ── Deepa Sadhana Hero Banner ── */
+    .deepa-hero {
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(135deg, #1a0800 0%, #3B1F00 40%, #5A2D00 70%, #2a1000 100%);
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .deepa-hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 50%, #FF8C0022 0%, transparent 70%),
+        radial-gradient(ellipse 30% 50% at 20% 80%, #FFD70015 0%, transparent 50%),
+        radial-gradient(ellipse 30% 50% at 80% 80%, #FFD70015 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Floating diya particles */
+    .diya-particle {
+      position: absolute;
+      font-size: 1.2rem;
+      animation: floatUp 6s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    .diya-particle:nth-child(1) { left: 5%; animation-delay: 0s; animation-duration: 7s; }
+    .diya-particle:nth-child(2) { left: 15%; animation-delay: 1.5s; animation-duration: 5.5s; }
+    .diya-particle:nth-child(3) { left: 75%; animation-delay: 0.8s; animation-duration: 6.5s; }
+    .diya-particle:nth-child(4) { left: 88%; animation-delay: 2s; animation-duration: 5s; }
+    .diya-particle:nth-child(5) { left: 35%; animation-delay: 3s; animation-duration: 8s; }
+    .diya-particle:nth-child(6) { left: 60%; animation-delay: 1s; animation-duration: 6s; }
+
+    @keyframes floatUp {
+      0% { transform: translateY(120px) scale(0.8); opacity: 0; }
+      20% { opacity: 0.7; }
+      80% { opacity: 0.4; }
+      100% { transform: translateY(-20px) scale(1.1); opacity: 0; }
+    }
+
+    .deepa-hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2.5rem 1rem 2rem;
+    }
+
+    /* Decorative diya row */
+    .diya-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .diya-svg-container {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    /* CSS Diya */
+    .css-diya {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: flicker 2s ease-in-out infinite;
+    }
+
+    .css-diya:nth-child(even) { animation-delay: 0.5s; }
+    .css-diya:nth-child(3n) { animation-delay: 1s; }
+
+    @keyframes flicker {
+      0%, 100% { filter: drop-shadow(0 0 6px #FFD700) brightness(1); }
+      25% { filter: drop-shadow(0 0 10px #FF8C00) brightness(1.15); }
+      50% { filter: drop-shadow(0 0 4px #FFA500) brightness(0.95); }
+      75% { filter: drop-shadow(0 0 12px #FFD700) brightness(1.1); }
+    }
+
+    .flame {
+      width: 12px;
+      height: 18px;
+      background: linear-gradient(to top, #FF4500, #FF8C00 40%, #FFD700 70%, #FFFACD);
+      border-radius: 50% 50% 30% 30% / 60% 60% 40% 40%;
+      animation: flameAnim 1.5s ease-in-out infinite;
+      position: relative;
+    }
+
+    .flame.big { width: 16px; height: 24px; }
+    .flame.small { width: 9px; height: 13px; }
+
+    @keyframes flameAnim {
+      0%, 100% { transform: scaleX(1) skewX(0deg); }
+      33% { transform: scaleX(0.85) skewX(-8deg); }
+      66% { transform: scaleX(1.1) skewX(6deg); }
+    }
+
+    .diya-body {
+      width: 28px; height: 10px;
+      background: linear-gradient(135deg, #D4A017, #8B4513, #D4A017);
+      border-radius: 0 0 50% 50% / 0 0 100% 100%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      margin-top: 1px;
+    }
+
+    .diya-body.big { width: 36px; height: 13px; }
+    .diya-body.small { width: 22px; height: 8px; }
+
+    .diya-base {
+      width: 32px; height: 4px;
+      background: #8B4513;
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .diya-base.big { width: 42px; }
+    .diya-base.small { width: 26px; }
+
+    /* Hero text */
+    .event-label {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+    }
+
+    .deepa-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(2rem, 7vw, 4.5rem);
+      font-weight: 900;
+      color: var(--gold-light);
+      text-shadow:
+        0 0 40px rgba(255,200,50,0.6),
+        0 2px 20px rgba(255,140,0,0.4),
+        0 4px 4px rgba(0,0,0,0.5);
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { text-shadow: 0 0 30px rgba(255,200,50,0.5), 0 2px 20px rgba(255,140,0,0.3), 0 4px 4px rgba(0,0,0,0.5); }
+      50% { text-shadow: 0 0 60px rgba(255,200,50,0.9), 0 2px 30px rgba(255,140,0,0.6), 0 4px 4px rgba(0,0,0,0.5); }
+    }
+
+    .deepa-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+      color: #FFC878;
+      letter-spacing: 0.2em;
+      margin-top: 0.4rem;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    /* Event message banner */
+    .event-message-banner {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      background: linear-gradient(135deg, #2a1400, #4a2200, #2a1400);
+      border-top: 1px solid rgba(212,160,23,0.3);
+      border-bottom: 2px solid var(--gold-deep);
+      padding: 1.2rem 2rem;
+      text-align: center;
+    }
+
+    .event-message-text {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: #FFE4A0;
+      line-height: 1.7;
+      font-style: italic;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* ── Admin Panel ── */
+    .admin-toggle-bar {
+      position: relative; z-index: 5;
+      background: #f0e8d0;
+      border-bottom: 1px solid var(--gold);
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.8rem;
+    }
+
+    .admin-toggle-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.9rem;
+      border: 1.5px solid var(--brown-mid);
+      border-radius: 20px;
+      background: transparent;
+      color: var(--brown-mid);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .admin-toggle-btn:hover, .admin-toggle-btn.active {
+      background: var(--brown-dark);
+      color: var(--gold);
+      border-color: var(--brown-dark);
+    }
+
+    .admin-panel {
+      position: relative; z-index: 4;
+      background: linear-gradient(135deg, #fff8e8, #fff3d4);
+      border-bottom: 2px solid var(--gold);
+      padding: 1.5rem 2rem 2rem;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .admin-panel-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 1rem;
+      color: var(--brown-dark);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 600px) { .admin-grid { grid-template-columns: 1fr; } }
+
+    .admin-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .admin-field label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--brown-mid);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .admin-field textarea, .admin-field input[type="text"], .admin-field input[type="date"] {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: 1.5px solid var(--gold);
+      border-radius: 8px;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      color: var(--brown-dark);
+      background: #fffdf5;
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .admin-field textarea:focus, .admin-field input:focus {
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px var(--shadow-gold);
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-apply {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      padding: 0.6rem 1.4rem;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      color: var(--brown-dark);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 10px var(--shadow-gold);
+    }
+
+    .btn-apply:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--shadow-gold); }
+
+    .btn-gen-link {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      padding: 0.6rem 1.4rem;
+      border: 1.5px solid var(--brown-dark);
+      border-radius: 8px;
+      background: var(--brown-dark);
+      color: var(--gold);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-gen-link:hover { background: var(--brown-mid); }
+
+    .link-box {
+      margin-top: 1rem;
+      padding: 0.9rem 1.1rem;
+      background: var(--brown-dark);
+      border-radius: 10px;
+      border: 1px solid var(--gold-deep);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .link-url {
+      flex: 1;
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.9rem;
+      color: var(--gold-light);
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    .btn-copy {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.9rem;
+      border: 1.5px solid var(--gold);
+      border-radius: 20px;
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .btn-copy:hover { background: var(--gold); color: var(--brown-dark); }
+    .btn-copy.copied { background: #2d7a2d; border-color: #2d7a2d; color: white; }
+
+    .link-share-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .share-wa { background: #25D366; color: white; }
+    .share-wa:hover { background: #1da851; }
+    .share-fb { background: #1877F2; color: white; }
+    .share-fb:hover { background: #0d5fcc; }
+    .share-tw { background: #1DA1F2; color: white; }
+    .share-tw:hover { background: #0c85d0; }
+
+    /* ── Trust Header ── */
+    header {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 2rem 1rem 1.5rem;
+      background: linear-gradient(180deg, #FDE882AA 0%, transparent 100%);
+    }
+
+    .om-symbol {
+      font-size: 3rem;
+      color: var(--amber);
+      display: block;
+      line-height: 1;
+      filter: drop-shadow(0 2px 8px var(--shadow-gold));
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .trust-name {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.4rem, 4vw, 2.5rem);
+      font-weight: 900;
+      color: var(--brown-dark);
+      letter-spacing: 0.04em;
+      margin: 0.3rem 0 0.2rem;
+      text-shadow: 0 2px 12px var(--shadow-gold);
+    }
+
+    .trust-tagline {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      color: var(--brown-mid);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin: 0.8rem auto 0;
+    }
+    .ornament-line { height: 1px; width: 70px; background: linear-gradient(90deg, transparent, var(--gold-deep)); }
+    .ornament-line.right { background: linear-gradient(90deg, var(--gold-deep), transparent); }
+    .ornament-diamond { width: 8px; height: 8px; background: var(--gold-deep); transform: rotate(45deg); }
+
+    /* ── Info / Form tabs ── */
+    .info-tabs {
+      display: flex; gap: 0;
+      margin-bottom: 1.2rem;
+      border-radius: 10px; overflow: hidden;
+      border: 1.5px solid var(--gold);
+    }
+
+    .info-tab {
+      flex: 1; padding: 0.45rem 0.3rem;
+      border: none; background: transparent;
+      font-family: 'Cinzel', serif; font-size: 0.65rem;
+      letter-spacing: 0.06em; color: var(--brown-mid);
+      cursor: pointer; transition: all 0.18s;
+      text-align: center; border-right: 1px solid var(--gold);
+      text-transform: uppercase;
+    }
+
+    .info-tab:last-child { border-right: none; }
+    .info-tab.active { background: linear-gradient(135deg, var(--gold), var(--amber)); color: var(--brown-dark); font-weight: 700; }
+    .info-tab:hover:not(.active) { background: var(--gold-pale); }
+
+    .tab-pane { animation: fadeIn 0.3s ease; }
+
+    .deity-card { display: flex; flex-direction: column; gap: 0.9rem; }
+
+    .deity-emblem {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin: 0 auto 0.3rem;
+      box-shadow: 0 4px 16px var(--shadow-gold), 0 0 0 4px #FDE88266;
+    }
+
+    .deity-name { font-family: 'Cinzel Decorative', serif; font-size: 1.05rem; color: var(--brown-dark); text-align: center; font-weight: 700; }
+    .deity-subtitle { font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--amber); text-align: center; letter-spacing: 0.12em; text-transform: uppercase; margin-top: -0.4rem; margin-bottom: 0.2rem; }
+    .deity-desc { font-size: 0.97rem; color: var(--brown-mid); line-height: 1.75; text-align: justify; }
+
+    .mantra-box {
+      background: var(--brown-dark); border-radius: 10px;
+      padding: 0.9rem 1rem; text-align: center; border-left: 3px solid var(--gold);
+    }
+
+    .mantra-text { font-family: 'Cinzel', serif; font-size: 0.85rem; color: var(--gold-light); line-height: 1.7; letter-spacing: 0.03em; }
+    .mantra-meaning { font-size: 0.78rem; color: #C8A86E; margin-top: 0.4rem; font-style: italic; }
+
+    .founder-stat-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .founder-stat { flex: 1; min-width: 80px; background: var(--gold-pale); border: 1px solid var(--gold); border-radius: 8px; padding: 0.5rem 0.4rem; text-align: center; }
+    .founder-stat-num { font-family: 'Cinzel Decorative', serif; font-size: 1.1rem; color: var(--amber); font-weight: 700; display: block; }
+    .founder-stat-lbl { font-size: 0.7rem; color: var(--brown-mid); font-family: 'Cinzel', serif; letter-spacing: 0.05em; }
+
+    .highlight-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      color: var(--brown-dark);
+      font-family: 'Cinzel', serif; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.08em; padding: 0.2rem 0.6rem;
+      border-radius: 20px; margin: 0.2rem 0.2rem 0.2rem 0;
+    }
+
+    main {
+      position: relative; z-index: 2;
+      max-width: 960px; margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+      display: grid; grid-template-columns: 1fr 1.1fr;
+      gap: 2.5rem; align-items: start;
+    }
+
+    @media (max-width: 700px) { main { grid-template-columns: 1fr; gap: 2rem; } }
+
+    .info-panel {
+      background: linear-gradient(135deg, #FFF8DC, #FDEAA0);
+      border: 1px solid var(--gold); border-radius: 16px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 8px 32px var(--shadow-gold), inset 0 1px 0 #FFFFFF88;
+    }
+
+    .info-panel h2 { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--brown-dark); margin-bottom: 1rem; font-weight: 700; }
+
+    .seva-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .seva-item { display: flex; align-items: center; gap: 0.75rem; font-size: 1rem; color: var(--brown-mid); }
+    .seva-icon { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--amber)); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 2px 8px var(--shadow-gold); }
+
+    .info-quote { margin-top: 1.5rem; padding: 1rem 1.2rem; background: var(--brown-dark); border-radius: 10px; color: var(--gold-light); font-style: italic; font-size: 1rem; line-height: 1.6; border-left: 3px solid var(--gold); }
+    .trust-details { margin-top: 1.5rem; }
+    .trust-details h3 { font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--brown-dark); letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .trust-detail-row { font-size: 0.9rem; color: var(--brown-mid); margin-bottom: 0.3rem; display: flex; gap: 0.4rem; }
+    .detail-label { font-weight: 600; color: var(--brown-dark); }
+
+    /* ── Deepa Sadhana info card ── */
+    .deepa-info-card {
+      background: linear-gradient(135deg, #1a0800, #3B1F00);
+      border: 1.5px solid var(--gold-deep);
+      border-radius: 12px;
+      padding: 1.2rem 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .deepa-info-card h3 {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.9rem;
+      color: var(--gold-light);
+      margin-bottom: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .deepa-info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .deepa-info-list li {
+      font-size: 0.92rem;
+      color: #FFD68A;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      line-height: 1.5;
+    }
+
+    .deepa-info-list li::before {
+      content: '🪔';
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      margin-top: 0.1rem;
+    }
+
+    /* ── Donation form ── */
+    .form-panel {
+      background: var(--white);
+      border: 1px solid var(--gold); border-radius: 16px;
+      padding: 2rem 1.6rem;
+      box-shadow: 0 12px 40px var(--shadow-gold), 0 2px 0 var(--gold) inset;
+    }
+
+    .form-panel h2 { font-family: 'Cinzel', serif; font-size: 1.4rem; color: var(--brown-dark); margin-bottom: 1.5rem; font-weight: 700; text-align: center; }
+
+    .field-group { margin-bottom: 1.2rem; }
+
+    label { display: block; font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.1em; color: var(--brown-mid); text-transform: uppercase; margin-bottom: 0.4rem; font-weight: 600; }
+
+    input, select, textarea {
+      width: 100%; padding: 0.75rem 1rem;
+      border: 1.5px solid #E8C96A; border-radius: 8px;
+      font-family: 'Crimson Pro', serif; font-size: 1.05rem;
+      color: var(--brown-dark); background: var(--gold-pale);
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus { border-color: var(--amber); box-shadow: 0 0 0 3px var(--shadow-gold); }
+    input.error { border-color: #c0392b; }
+    .error-msg { color: #c0392b; font-size: 0.82rem; margin-top: 0.3rem; }
+
+    .amount-presets { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.5rem; margin-bottom: 0.75rem; }
+
+    .preset-btn {
+      padding: 0.55rem 0.5rem;
+      border: 1.5px solid var(--gold); border-radius: 8px;
+      background: var(--gold-pale); color: var(--brown-dark);
+      font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: all 0.18s; text-align: center;
+    }
+
+    .preset-btn:hover, .preset-btn.active {
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      color: var(--brown-dark); border-color: var(--amber);
+      box-shadow: 0 2px 10px var(--shadow-gold); transform: translateY(-1px);
+    }
+
+    .amount-display { display: flex; align-items: center; position: relative; }
+    .rupee-sign { position: absolute; left: 1rem; font-size: 1.1rem; color: var(--amber); font-weight: 700; pointer-events: none; }
+    .amount-display input { padding-left: 2.2rem; }
+
+    .donate-btn {
+      width: 100%; padding: 1rem; margin-top: 1.5rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 50%, var(--gold-deep) 100%);
+      border: none; border-radius: 10px;
+      font-family: 'Cinzel Decorative', serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--brown-dark); cursor: pointer;
+      letter-spacing: 0.08em; box-shadow: 0 4px 20px var(--shadow-gold);
+      transition: all 0.22s; position: relative; overflow: hidden;
+    }
+
+    .donate-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, #FFFFFF44 0%, transparent 60%); pointer-events: none; }
+    .donate-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 28px var(--shadow-gold); }
+    .donate-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .secure-badges { display: flex; justify-content: center; align-items: center; gap: 1.2rem; margin-top: 1rem; flex-wrap: wrap; }
+    .badge { display: flex; align-items: center; gap: 0.3rem; font-size: 0.78rem; color: var(--brown-mid); }
+    .badge-icon { font-size: 0.9rem; }
+
+    .success-screen { text-align: center; padding: 2.5rem 1.5rem; animation: fadeIn 0.5s ease; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    .success-icon { font-size: 4rem; display: block; margin-bottom: 1rem; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+    @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .success-screen h2 { font-family: 'Cinzel Decorative', serif; font-size: 1.5rem; color: var(--brown-dark); margin-bottom: 0.75rem; }
+    .success-screen p { color: var(--brown-mid); line-height: 1.7; font-size: 1.05rem; margin-bottom: 0.5rem; }
+
+    .payment-id-box {
+      background: var(--gold-pale); border: 1px dashed var(--gold-deep);
+      border-radius: 8px; padding: 0.75rem 1rem; margin: 1rem 0;
+      font-size: 0.9rem; color: var(--brown-mid);
+    }
+
+    .payment-id-box strong { display: block; font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--amber); margin-bottom: 0.3rem; }
+
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(30,10,0,0.75); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; animation: fadeIn 0.2s ease; }
+    .modal-box { background: var(--white); border-radius: 16px; padding: 2rem; max-width: 420px; width: 100%; border-top: 4px solid var(--gold); box-shadow: 0 24px 64px rgba(0,0,0,0.5); animation: slideUp 0.3s ease; }
+
+    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .modal-box h3 { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--brown-dark); margin-bottom: 0.75rem; font-weight: 700; }
+    .modal-box p { font-size: 1rem; color: var(--brown-mid); line-height: 1.6; margin-bottom: 1rem; }
+
+    .summary-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .summary-table td { padding: 0.5rem 0.25rem; font-size: 0.95rem; border-bottom: 1px solid #F5E68A; }
+    .summary-table td:first-child { color: var(--brown-mid); }
+    .summary-table td:last-child { text-align: right; font-weight: 600; color: var(--brown-dark); }
+    .summary-table tr:last-child td { border-bottom: none; font-size: 1.05rem; }
+
+    .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.2rem; }
+
+    .btn-cancel { flex: 1; padding: 0.75rem; border: 1.5px solid var(--gold); border-radius: 8px; background: transparent; color: var(--brown-dark); font-family: 'Cinzel', serif; font-size: 0.9rem; cursor: pointer; transition: all 0.18s; }
+    .btn-cancel:hover { background: var(--gold-pale); }
+
+    .btn-confirm { flex: 2; padding: 0.75rem; border: none; border-radius: 8px; background: linear-gradient(135deg, var(--gold), var(--amber)); color: var(--brown-dark); font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.18s; box-shadow: 0 2px 12px var(--shadow-gold); }
+    .btn-confirm:hover { transform: translateY(-1px); box-shadow: 0 4px 18px var(--shadow-gold); }
+
+    footer { position: relative; z-index: 2; text-align: center; padding: 1.5rem 1rem; border-top: 1px solid var(--gold); background: linear-gradient(180deg, transparent, #FDE88244); }
+    footer p { font-size: 0.85rem; color: var(--brown-mid); line-height: 1.6; }
+
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--brown-dark); border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 0.5rem; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .rp-note { margin-top: 0.5rem; font-size: 0.8rem; color: #888; text-align: center; }
+
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .gallery-img {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid var(--gold-deep);
+      box-shadow: 0 2px 10px var(--shadow-gold);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a0800, #4a2200);
+    }
+
+    .gallery-img svg {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const SEVA_OPTIONS = [
+      { value: "deepa_sadhana", label: "🪔 దీప సాధన స్పాన్సర్‌షిప్" },
+      { value: "annadanam", label: "🍚 అన్నదానం (ఉచిత భోజనం)" },
+      { value: "nitya_puja", label: "🪔 నిత్య పూజ (రోజువారీ ఆరాధన)" },
+      { value: "gomata_seva", label: "🐄 గోమాత సేవ (ఆవు సంరక్షణ)" },
+      { value: "vidya_dana", label: "📖 విద్యాదానం (విద్య)" },
+      { value: "vastra_dana", label: "👘 వస్త్రదానం (వస్త్రాలు)" },
+      { value: "temple_maintenance", label: "🏛️ దేవాలయ నిర్వహణ" },
+      { value: "general", label: "🙏 సాధారణ విరాళం" },
+    ];
+
+    const PRESET_AMOUNTS = [5, 11, 24, 51, 108, 501];
+
+    function validate(form) {
+      const errs = {};
+      if (!form.name.trim()) errs.name = "పూర్తి పేరు అవసరం.";
+      if (!form.email.trim()) errs.email = "ఇమెయిల్ లేదా వాట్సాప్ నంబర్ అవసరం.";
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) && !/^[6-9]\d{9}$/.test(form.email.trim())) errs.email = "చెల్లుబాటు అయ్యే ఇమెయిల్ లేదా 10 అంకెల వాట్సాప్ నంబర్ నమోదు చేయండి.";
+      if (!form.phone.trim()) errs.phone = "మొబైల్ నంబర్ అవసరం.";
+      else if (!/^[6-9]\d{9}$/.test(form.phone.trim())) errs.phone = "చెల్లుబాటు అయ్యే 10 అంకెల మొబైల్ నంబర్ నమోదు చేయండి.";
+      if (!form.amount || isNaN(form.amount) || Number(form.amount) < 1)
+        errs.amount = "చెల్లుబాటు అయ్యే సహకార మొత్తం నమోదు చేయండి (కనిష్టం ₹1).";
+      if (!form.seva) errs.seva = "సేవ ఉద్దేశ్యాన్ని ఎంచుకోండి.";
+      return errs;
+    }
+
+    /* ── AI-Generated Diya SVG illustrations ── */
+    function DiyaIllustration({ variant = 1 }) {
+      if (variant === 1) return (
+        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FFD700" stopOpacity="0.9"/>
+              <stop offset="100%" stopColor="#FF4500" stopOpacity="0"/>
+            </radialGradient>
+            <radialGradient id="bg1" cx="50%" cy="70%" r="60%">
+              <stop offset="0%" stopColor="#3B1500"/>
+              <stop offset="100%" stopColor="#1a0800"/>
+            </radialGradient>
+          </defs>
+          <rect width="200" height="150" fill="url(#bg1)"/>
+          {/* Glow */}
+          <ellipse cx="100" cy="70" rx="60" ry="50" fill="url(#glow1)" opacity="0.6"/>
+          {/* Diya body */}
+          <ellipse cx="100" cy="108" rx="38" ry="12" fill="#8B4513"/>
+          <path d="M62 108 Q65 95 100 92 Q135 95 138 108 Z" fill="#D4A017"/>
+          <path d="M65 107 Q68 98 100 95 Q132 98 135 107 Z" fill="#C47B2B"/>
+          <ellipse cx="100" cy="93" rx="33" ry="5" fill="#E8900A" opacity="0.8"/>
+          {/* Wick */}
+          <line x1="100" y1="92" x2="100" y2="82" stroke="#888" strokeWidth="1.5"/>
+          {/* Flame outer */}
+          <path d="M100 82 C94 72 91 62 100 50 C109 62 106 72 100 82 Z" fill="#FF4500"/>
+          {/* Flame mid */}
+          <path d="M100 80 C96 72 94 65 100 55 C106 65 104 72 100 80 Z" fill="#FF8C00"/>
+          {/* Flame core */}
+          <path d="M100 78 C97 73 96 68 100 60 C104 68 103 73 100 78 Z" fill="#FFD700"/>
+          {/* Flame tip */}
+          <path d="M100 78 C99 74 99 70 100 63 C101 70 101 74 100 78 Z" fill="#FFFACD"/>
+          {/* Oil */}
+          <ellipse cx="100" cy="95" rx="20" ry="4" fill="#FFD700" opacity="0.5"/>
+          {/* Decorative dots */}
+          <circle cx="75" cy="108" r="2" fill="#FFD700" opacity="0.7"/>
+          <circle cx="125" cy="108" r="2" fill="#FFD700" opacity="0.7"/>
+          <circle cx="83" cy="104" r="1.5" fill="#FFD700" opacity="0.5"/>
+          <circle cx="117" cy="104" r="1.5" fill="#FFD700" opacity="0.5"/>
+          {/* Light rays */}
+          {[...Array(8)].map((_, i) => {
+            const a = (i * 45) * Math.PI / 180;
+            return <line key={i} x1="100" y1="65" x2={100+Math.cos(a)*40} y2={65+Math.sin(a)*40} stroke="#FFD700" strokeWidth="0.5" opacity="0.3"/>
+          })}
+          {/* Text */}
+          <text x="100" y="138" textAnchor="middle" fontFamily="serif" fontSize="10" fill="#D4A017" opacity="0.9">దీప సాధన</text>
+        </svg>
+      );
+      if (variant === 2) return (
+        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="bg2" cx="50%" cy="60%" r="70%">
+              <stop offset="0%" stopColor="#2a0d00"/>
+              <stop offset="100%" stopColor="#0d0500"/>
+            </radialGradient>
+          </defs>
+          <rect width="200" height="150" fill="url(#bg2)"/>
+          {/* Multiple diyas in a row */}
+          {[40, 80, 120, 160].map((x, i) => (
+            <g key={i}>
+              <ellipse cx={x} cy="110" rx="16" ry="5" fill="#8B4513"/>
+              <path d={`M${x-14} 110 Q${x-12} 102 ${x} 100 Q${x+12} 102 ${x+14} 110 Z`} fill="#D4A017"/>
+              <ellipse cx={x} cy="100" rx="12" ry="3" fill="#E8900A" opacity="0.8"/>
+              <line x1={x} y1="100" x2={x} y2="92" stroke="#888" strokeWidth="1"/>
+              <path d={`M${x} 92 C${x-4} 85 ${x-5} 78 ${x} 68 C${x+5} 78 ${x+4} 85 ${x} 92 Z`} fill="#FF4500"/>
+              <path d={`M${x} 90 C${x-2} 84 ${x-3} 79 ${x} 71 C${x+3} 79 ${x+2} 84 ${x} 90 Z`} fill="#FFD700"/>
+              <ellipse cx={x} cy="96" rx="8" ry="50" fill="#FFD700" opacity="0.08"/>
+            </g>
+          ))}
+          {/* Rangoli pattern */}
+          <circle cx="100" cy="130" r="15" fill="none" stroke="#D4A017" strokeWidth="1" opacity="0.4"/>
+          <circle cx="100" cy="130" r="8" fill="none" stroke="#FFD700" strokeWidth="0.8" opacity="0.5"/>
+          {[0,45,90,135,180,225,270,315].map((a,i) => (
+            <circle key={i} cx={100+Math.cos(a*Math.PI/180)*12} cy={130+Math.sin(a*Math.PI/180)*12} r="1.5" fill="#FFD700" opacity="0.6"/>
+          ))}
+          <text x="100" y="148" textAnchor="middle" fontFamily="serif" fontSize="9" fill="#D4A017" opacity="0.8">पंक्ति दीप · Row of Lights</text>
+        </svg>
+      );
+      if (variant === 3) return (
+        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="bg3" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stopColor="#3B1F00"/>
+              <stop offset="100%" stopColor="#1a0800"/>
+            </radialGradient>
+            <radialGradient id="glow3" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FF8C00" stopOpacity="0.5"/>
+              <stop offset="100%" stopColor="#FF8C00" stopOpacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="200" height="150" fill="url(#bg3)"/>
+          {/* Lotus petals */}
+          {[...Array(8)].map((_, i) => {
+            const a = i * 45 * Math.PI / 180;
+            const x = 100 + Math.cos(a) * 30;
+            const y = 85 + Math.sin(a) * 20;
+            return <ellipse key={i} cx={x} cy={y} rx="12" ry="6" fill="#FF8C00" opacity="0.5" transform={`rotate(${i*45} ${x} ${y})`}/>
+          })}
+          {/* Center circle */}
+          <circle cx="100" cy="85" r="18" fill="#D4A017" opacity="0.8"/>
+          <circle cx="100" cy="85" r="12" fill="#FFD700" opacity="0.9"/>
+          {/* Large center diya */}
+          <ellipse cx="100" cy="90" rx="22" ry="7" fill="#8B4513"/>
+          <path d="M78 90 Q82 80 100 77 Q118 80 122 90 Z" fill="#C47B2B"/>
+          <line x1="100" y1="77" x2="100" y2="65" stroke="#888" strokeWidth="1.5"/>
+          <path d="M100 65 C93 55 90 42 100 28 C110 42 107 55 100 65 Z" fill="#FF4500"/>
+          <path d="M100 63 C95 55 93 45 100 33 C107 45 105 55 100 63 Z" fill="#FF8C00"/>
+          <path d="M100 61 C97 54 96 48 100 38 C104 48 103 54 100 61 Z" fill="#FFD700"/>
+          <path d="M100 59 C99 54 99 50 100 42 C101 50 101 54 100 59 Z" fill="#FFFFF0"/>
+          <ellipse cx="100" cy="50" rx="35" ry="30" fill="url(#glow3)"/>
+          {/* OM symbol */}
+          <text x="100" y="142" textAnchor="middle" fontFamily="serif" fontSize="16" fill="#FFD700" opacity="0.7">ॐ</text>
+        </svg>
+      );
+      if (variant === 4) return (
+        <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="bg4" cx="50%" cy="40%" r="70%">
+              <stop offset="0%" stopColor="#2a1400"/>
+              <stop offset="100%" stopColor="#0d0500"/>
+            </radialGradient>
+          </defs>
+          <rect width="200" height="150" fill="url(#bg4)"/>
+          {/* Stars/sparkles */}
+          {[20,50,80,140,170,30,160,100].map((x,i) => (
+            <circle key={i} cx={x} cy={10+i*8} r="1" fill="#FFD700" opacity={0.3+i*0.07}/>
+          ))}
+          {/* Peacock feather motif */}
+          <ellipse cx="100" cy="80" rx="8" ry="40" fill="none" stroke="#D4A017" strokeWidth="1" opacity="0.5"/>
+          <ellipse cx="100" cy="80" rx="16" ry="40" fill="none" stroke="#C47B2B" strokeWidth="0.8" opacity="0.4"/>
+          {[-30,-15,0,15,30].map((offset, i) => (
+            <g key={i} transform={`translate(100 40) rotate(${offset})`}>
+              <line x1="0" y1="0" x2="0" y2="55" stroke="#D4A017" strokeWidth="0.8" opacity="0.6"/>
+              <ellipse cx="0" cy="10" rx="6" ry="10" fill="#E8900A" opacity="0.4" transform="rotate(0)"/>
+            </g>
+          ))}
+          {/* Diya at center base */}
+          <ellipse cx="100" cy="118" rx="20" ry="6" fill="#8B4513"/>
+          <path d="M80 118 Q84 109 100 106 Q116 109 120 118 Z" fill="#D4A017"/>
+          <line x1="100" y1="106" x2="100" y2="98" stroke="#888" strokeWidth="1"/>
+          <path d="M100 98 C95 91 93 84 100 74 C107 84 105 91 100 98 Z" fill="#FF4500"/>
+          <path d="M100 96 C96 90 95 85 100 76 C105 85 104 90 100 96 Z" fill="#FFD700"/>
+          <text x="100" y="144" textAnchor="middle" fontFamily="serif" fontSize="9" fill="#D4A017" opacity="0.8">Deepa Sadhana 2025</text>
+        </svg>
+      );
+      return null;
+    }
+
+    /* ── CSS Diya Component ── */
+    function CssDiya({ size = "normal" }) {
+      const cls = size === "big" ? "big" : size === "small" ? "small" : "";
+      return (
+        <div className="css-diya">
+          <div className={`flame ${cls}`}></div>
+          <div className={`diya-body ${cls}`}></div>
+          <div className={`diya-base ${cls}`}></div>
+        </div>
+      );
+    }
+
+    
+    const TAB_LABELS = {
+      deepa:   "దీప సాధన",
+      gayatri: "జ్యోతి దారణా",
+      acharya: "పరిశ్రమ",
+      seva:    "అఖండ దీప సాధన",
+      trust:   "గాయత్రీ పీఠం",
+    };
+
+    const TAB_SEVA_OPTIONS = {
+      deepa: [
+        { value: "deepa_prabhata",  label: "🪔 దీప సాధన — ప్రభాత వేళ (5:00 AM – 6:00 AM)" },
+        { value: "deepa_madhyana",  label: "🪔 దీప సాధన — మధ్యాహ్నం (12:00 PM – 1:00 PM)" },
+        { value: "deepa_sayam",     label: "🪔 దీప సాధన — సాయంత్రం (6:00 PM – 7:00 PM)" },
+      ],
+      gayatri: [
+        { value: "jyothi_prabhata", label: "🌞 జ్యోతి దారణా — ప్రభాత వేళ (5:00 AM – 6:00 AM)" },
+        { value: "jyothi_sayam",    label: "🌞 జ్యోతి దారణా — సాయంత్రం (6:00 PM – 7:00 PM)" },
+      ],
+      acharya: [
+        { value: "parishrama_prabhata", label: "🪔 పరిశ్రమ — ప్రభాత వేళ (5:00 AM – 6:00 AM)" },
+        { value: "parishrama_sayam",    label: "🪔 పరిశ్రమ — సాయంత్రం (6:00 PM – 7:00 PM)" },
+      ],
+      seva: [
+        { value: "akhandha_prabhata", label: "🪔 అఖండ దీప సాధన — ప్రభాత వేళ (5:00 AM – 6:00 AM)" },
+        { value: "akhandha_madhyana", label: "🪔 అఖండ దీప సాధన — మధ్యాహ్నం (12:00 PM – 1:00 PM)" },
+        { value: "akhandha_sayam",    label: "🪔 అఖండ దీప సాధన — సాయంత్రం (6:00 PM – 7:00 PM)" },
+      ],
+      trust: [
+        { value: "pitam_prabhata", label: "🏛️ గాయత్రీ పీఠం — ప్రభాత వేళ (5:00 AM – 6:00 AM)" },
+        { value: "pitam_sayam",    label: "🏛️ గాయత్రీ పీఠం — సాయంత్రం (6:00 PM – 7:00 PM)" },
+      ],
+    };
+
+    function App() {
+      const [form, setForm] = useState({ name:"", email:"", phone:"", amount:"", seva:"" });
+      const [errors, setErrors] = useState({});
+      const [activePreset, setActivePreset] = useState(null);
+      const [showConfirm, setShowConfirm] = useState(false);
+      const [loading, setLoading] = useState(false);
+      const [success, setSuccess] = useState(null);
+      const [activeTab, setActiveTab] = useState("deepa");
+      const [showAdmin, setShowAdmin] = useState(false);
+
+      // Editable content state
+      const [eventMessage, setEventMessage] = useState(
+        "Join us for the sacred Deepa Sadhana — a divine ritual of lighting 1008 lamps to invoke the blessings of Maa Gayatri. Your donation lights the path of knowledge, peace, and liberation for all."
+      );
+      const [eventDate, setEventDate] = useState(new Date().toISOString().split('T')[0]);
+      const [eventLocation, setEventLocation] = useState("Gayatri Peetham Trust, Hyderabad");
+      const [draftMessage, setDraftMessage] = useState(eventMessage);
+      const [draftDate, setDraftDate] = useState(new Date().toISOString().split('T')[0]);
+      const [draftLocation, setDraftLocation] = useState(eventLocation);
+
+      // Link generation
+      const [generatedLink, setGeneratedLink] = useState("");
+      const [copied, setCopied] = useState(false);
+
+      const set = (field, val) => {
+        setForm(f => ({ ...f, [field]: val }));
+        setErrors(e => ({ ...e, [field]: undefined }));
+      };
+
+      const pickPreset = (amt) => { setActivePreset(amt); set("amount", String(amt)); };
+
+      const handleSubmit = () => {
+        const errs = validate(form);
+        if (Object.keys(errs).length) { setErrors(errs); return; }
+        setShowConfirm(true);
+      };
+
+      const applyChanges = () => {
+        setEventMessage(draftMessage);
+        setEventDate(draftDate);
+        setEventLocation(draftLocation);
+      };
+
+      const generateLink = () => {
+        const base = window.location.href.split('?')[0];
+        const params = new URLSearchParams({
+          msg: draftMessage,
+          date: draftDate,
+          loc: draftLocation,
+        });
+        const url = `${base}?${params.toString()}`;
+        setGeneratedLink(url);
+        // Also apply
+        applyChanges();
+      };
+
+      const copyLink = () => {
+        if (generatedLink) {
+          navigator.clipboard.writeText(generatedLink).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2500);
+          });
+        }
+      };
+
+      // Load params from URL on mount
+      useEffect(() => {
+        const p = new URLSearchParams(window.location.search);
+        if (p.get("msg")) { const m = p.get("msg"); setEventMessage(m); setDraftMessage(m); }
+        if (p.get("date")) { const d = p.get("date"); setEventDate(d); setDraftDate(d); }
+        if (p.get("loc")) { const l = p.get("loc"); setEventLocation(l); setDraftLocation(l); }
+      }, []);
+
+      const formatDate = (d) => {
+        if (!d) return "";
+        try {
+          return new Date(d).toLocaleDateString("en-IN", { day:"numeric", month:"long", year:"numeric" });
+        } catch { return d; }
+      };
+
+      const processPayment = async () => {
+        setShowConfirm(false);
+        setLoading(true);
+        const scriptLoaded = await new Promise((res) => {
+          if (window.Razorpay) return res(true);
+          const s = document.createElement("script");
+          s.src = "https://checkout.razorpay.com/v1/checkout.js";
+          s.onload = () => res(true);
+          s.onerror = () => res(false);
+          document.body.appendChild(s);
+        });
+        if (!scriptLoaded) { setLoading(false); alert("Could not load payment gateway."); return; }
+        const sevaLabel = SEVA_OPTIONS.find(s => s.value === form.seva)?.label || form.seva;
+        const options = {
+          key: "YOUR_RAZORPAY_KEY_ID",
+          amount: Math.round(Number(form.amount) * 100),
+          currency: "INR",
+          name: "Gayatri Peetham Trust – Deepa Sadhana",
+          description: sevaLabel,
+          prefill: { name: form.name, email: form.email, contact: form.phone },
+          notes: { seva: form.seva },
+          theme: { color: "#D4A017" },
+          handler: function (response) {
+            setLoading(false);
+            setSuccess({ paymentId: response.razorpay_payment_id || "PAY_DEMO_" + Date.now(), name: form.name, amount: form.amount, seva: sevaLabel });
+          },
+          modal: { ondismiss: () => { setLoading(false); } }
+        };
+        try {
+          const rzp = new window.Razorpay(options);
+          rzp.open();
+        } catch(e) {
+          setLoading(false);
+          setSuccess({ paymentId: "DEMO_" + Date.now(), name: form.name, amount: form.amount, seva: sevaLabel });
+        }
+      };
+
+      const shareWhatsApp = () => {
+        if (!generatedLink) return;
+        const text = encodeURIComponent(`🪔 *Deepa Sadhana* — Gayatri Peetham Trust\n\n${eventMessage}\n\n📅 ${formatDate(eventDate)}\n📍 ${eventLocation}\n\n🙏 Donate & support: ${generatedLink}`);
+        window.open(`https://wa.me/?text=${text}`, "_blank");
+      };
+
+      const shareFacebook = () => {
+        if (!generatedLink) return;
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(generatedLink)}`, "_blank");
+      };
+
+      const shareTwitter = () => {
+        if (!generatedLink) return;
+        const text = encodeURIComponent(`🪔 Deepa Sadhana – Gayatri Peetham Trust\n${eventMessage.substring(0,100)}...\nDonate: ${generatedLink}`);
+        window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank");
+      };
+
+      return (
+        <>
+          <div className="top-border" />
+
+          <main>
+            {/* Info panel */}
+            <aside className="info-panel">
+              <div className="info-tabs">
+                {[
+                  { id:"deepa", label:"దీప సాధన" },
+                  { id:"gayatri", label:"జ్యోతి దారణా" },
+                  { id:"acharya", label:"పరిశ్రమ" },
+                  { id:"seva", label:"అఖండ దీప సాధన" },
+                  { id:"trust", label:"గాయత్రీ పీఠం" },
+                ].map(t => (
+                  <button
+                    key={t.id}
+                    className={`info-tab ${activeTab === t.id ? "active" : ""}`}
+                    onClick={() => setActiveTab(t.id)}
+                  >{t.label}</button>
+                ))}
+              </div>
+
+              {activeTab === "deepa" && (
+                <div className="tab-pane deity-card">
+                  <div>
+                    <div className="deity-emblem">🪔</div>
+                  </div>
+                  {/* About */}
+                  <div className="deepa-info-card" style={{marginTop:"0.5rem"}}>
+                    <h3 style={{fontFamily:"Cinzel Decorative,serif",fontSize:"0.85rem",color:"var(--gold-light)",marginBottom:"0.6rem"}}>🌟 దీప సాధన గురించి</h3>
+                    <p style={{color:"#FFD68A",fontSize:"0.92rem",lineHeight:"1.7",minHeight:"60px"}}>
+                      {/* మీ వివరాలు ఇక్కడ జోడించండి */}
+                    </p>
+                  </div>
+                  {/* Timings */}
+                  <div style={{marginTop:"0.8rem",background:"linear-gradient(135deg,#1a0800,#3B1F00)",borderRadius:"10px",border:"1px solid #D4A01788",padding:"0.9rem 1rem"}}>
+                    <div style={{fontFamily:"Cinzel,serif",fontSize:"0.75rem",color:"var(--gold)",letterSpacing:"0.1em",marginBottom:"0.5rem"}}>⏰ సాధన వేళలు</div>
+                    <div style={{color:"#FFD68A",fontSize:"0.88rem",lineHeight:"2"}}>
+                      🌅 ప్రభాత వేళ &nbsp;—&nbsp; 5:00 AM – 6:00 AM<br/>
+                      ☀️ మధ్యాహ్నం &nbsp;—&nbsp; 12:00 PM – 1:00 PM<br/>
+                      🌇 సాయంత్రం &nbsp;—&nbsp; 6:00 PM – 7:00 PM
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "gayatri" && (
+                <div className="tab-pane deity-card">
+                  <div>
+                    <div className="deity-emblem">🌞</div>
+                  </div>
+                  {/* About */}
+                  <div className="deepa-info-card" style={{marginTop:"0.5rem"}}>
+                    <h3 style={{fontFamily:"Cinzel Decorative,serif",fontSize:"0.85rem",color:"var(--gold-light)",marginBottom:"0.6rem"}}>🌟 జ్యోతి దారణా గురించి</h3>
+                    <p style={{color:"#FFD68A",fontSize:"0.92rem",lineHeight:"1.7",minHeight:"60px"}}>
+                      {/* మీ వివరాలు ఇక్కడ జోడించండి */}
+                    </p>
+                  </div>
+                  {/* Timings */}
+                  <div style={{marginTop:"0.8rem",background:"linear-gradient(135deg,#1a0800,#3B1F00)",borderRadius:"10px",border:"1px solid #D4A01788",padding:"0.9rem 1rem"}}>
+                    <div style={{fontFamily:"Cinzel,serif",fontSize:"0.75rem",color:"var(--gold)",letterSpacing:"0.1em",marginBottom:"0.5rem"}}>⏰ దర్శన వేళలు</div>
+                    <div style={{color:"#FFD68A",fontSize:"0.88rem",lineHeight:"2"}}>
+                      🌅 ప్రభాత వేళ &nbsp;—&nbsp; 5:00 AM – 6:00 AM<br/>
+                      🌇 సాయంత్రం &nbsp;—&nbsp; 6:00 PM – 7:00 PM
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "acharya" && (
+                <div className="tab-pane deity-card">
+                  <div>
+                    <div className="deity-emblem">🪔</div>
+                  </div>
+                  {/* About */}
+                  <div className="deepa-info-card" style={{marginTop:"0.5rem"}}>
+                    <h3 style={{fontFamily:"Cinzel Decorative,serif",fontSize:"0.85rem",color:"var(--gold-light)",marginBottom:"0.6rem"}}>🌟 పరిశ్రమ గురించి</h3>
+                    <p style={{color:"#FFD68A",fontSize:"0.92rem",lineHeight:"1.7",minHeight:"60px"}}>
+                      {/* మీ వివరాలు ఇక్కడ జోడించండి */}
+                    </p>
+                  </div>
+                  {/* Timings */}
+                  <div style={{marginTop:"0.8rem",background:"linear-gradient(135deg,#1a0800,#3B1F00)",borderRadius:"10px",border:"1px solid #D4A01788",padding:"0.9rem 1rem"}}>
+                    <div style={{fontFamily:"Cinzel,serif",fontSize:"0.75rem",color:"var(--gold)",letterSpacing:"0.1em",marginBottom:"0.5rem"}}>⏰ పరిశ్రమ వేళలు</div>
+                    <div style={{color:"#FFD68A",fontSize:"0.88rem",lineHeight:"2"}}>
+                      🌅 ప్రభాత వేళ &nbsp;—&nbsp; 5:00 AM – 6:00 AM<br/>
+                      🌇 సాయంత్రం &nbsp;—&nbsp; 6:00 PM – 7:00 PM
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "seva" && (
+                <div className="tab-pane deity-card">
+                  <div>
+                    <div className="deity-emblem">🪔</div>
+                  </div>
+                  {/* About */}
+                  <div className="deepa-info-card" style={{marginTop:"0.5rem"}}>
+                    <h3 style={{fontFamily:"Cinzel Decorative,serif",fontSize:"0.85rem",color:"var(--gold-light)",marginBottom:"0.6rem"}}>🌟 అఖండ దీప సాధన గురించి</h3>
+                    <p style={{color:"#FFD68A",fontSize:"0.92rem",lineHeight:"1.7",minHeight:"60px"}}>
+                      {/* మీ వివరాలు ఇక్కడ జోడించండి */}
+                    </p>
+                  </div>
+                  {/* Timings */}
+                  <div style={{marginTop:"0.8rem",background:"linear-gradient(135deg,#1a0800,#3B1F00)",borderRadius:"10px",border:"1px solid #D4A01788",padding:"0.9rem 1rem"}}>
+                    <div style={{fontFamily:"Cinzel,serif",fontSize:"0.75rem",color:"var(--gold)",letterSpacing:"0.1em",marginBottom:"0.5rem"}}>⏰ సాధన వేళలు</div>
+                    <div style={{color:"#FFD68A",fontSize:"0.88rem",lineHeight:"2"}}>
+                      🌅 ప్రభాత వేళ &nbsp;—&nbsp; 5:00 AM – 6:00 AM<br/>
+                      ☀️ మధ్యాహ్నం &nbsp;—&nbsp; 12:00 PM – 1:00 PM<br/>
+                      🌇 సాయంత్రం &nbsp;—&nbsp; 6:00 PM – 7:00 PM
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "trust" && (
+                <div className="tab-pane deity-card">
+                  <div>
+                    <div className="deity-emblem">🏛️</div>
+                  </div>
+                  {/* About */}
+                  <div className="deepa-info-card" style={{marginTop:"0.5rem"}}>
+                    <h3 style={{fontFamily:"Cinzel Decorative,serif",fontSize:"0.85rem",color:"var(--gold-light)",marginBottom:"0.6rem"}}>🌟 గాయత్రీ పీఠం గురించి</h3>
+                    <p style={{color:"#FFD68A",fontSize:"0.92rem",lineHeight:"1.7",minHeight:"60px"}}>
+                      {/* మీ వివరాలు ఇక్కడ జోడించండి */}
+                    </p>
+                  </div>
+                  {/* Timings */}
+                  <div style={{marginTop:"0.8rem",background:"linear-gradient(135deg,#1a0800,#3B1F00)",borderRadius:"10px",border:"1px solid #D4A01788",padding:"0.9rem 1rem"}}>
+                    <div style={{fontFamily:"Cinzel,serif",fontSize:"0.75rem",color:"var(--gold)",letterSpacing:"0.1em",marginBottom:"0.5rem"}}>⏰ పీఠం వేళలు</div>
+                    <div style={{color:"#FFD68A",fontSize:"0.88rem",lineHeight:"2"}}>
+                      🌅 ప్రభాత వేళ &nbsp;—&nbsp; 5:00 AM – 6:00 AM<br/>
+                      🌇 సాయంత్రం &nbsp;—&nbsp; 6:00 PM – 7:00 PM
+                    </div>
+                  </div>
+                </div>
+              )}
+            </aside>
+
+            {/* నమోదు form */}
+            <section className="form-panel">
+              {success ? (
+                <div className="success-screen">
+                  <span className="success-icon">🙏</span>
+                  <h2>మీకు దీవెనలు!</h2>
+                  <p>Dear <strong>{success.name}</strong>, మీ సహకారం <strong>₹{Number(success.amount).toLocaleString('en-IN')}</strong> <em>{success.seva}</em> కోసం స్వీకరించబడింది.</p>
+                  <p>రశీదు త్వరలో మీ ఇమెయిల్ లేదా వాట్సాప్‌కు పంపబడుతుంది.</p>
+                  <div className="payment-id-box">
+                    <strong>Payment Reference</strong>
+                    {success.paymentId}
+                  </div>
+                  <p style={{fontSize:"0.9rem",color:"var(--brown-mid)",marginTop:"0.5rem"}}>
+                    🪔 దీప సాధన పవిత్ర జ్యోతి మీ మార్గాన్ని సదా వెలిగించుగాక.
+                  </p>
+                  <button
+                    onClick={() => { setSuccess(null); setForm({ name:"",email:"",phone:"",amount:"",seva:"" }); setActivePreset(null); }}
+                    style={{ marginTop:"1.2rem", background:"none", border:"1.5px solid var(--gold)", padding:"0.6rem 1.5rem", borderRadius:"8px", fontFamily:"Cinzel, serif", cursor:"pointer", color:"var(--brown-dark)" }}
+                  >మళ్ళీ సహకారం అందించండి</button>
+                </div>
+              ) : (
+                <>
+                  <h2>🪔 {TAB_LABELS[activeTab]}లో నమోదు చేసుకోండి</h2>
+
+                  <div className="field-group">
+                    <label>పూర్తి పేరు</label>
+                    <input type="text" placeholder="మీ పూర్తి పేరు" value={form.name} onChange={e => set("name", e.target.value)} className={errors.name ? "error" : ""}/>
+                    {errors.name && <p className="error-msg">{errors.name}</p>}
+                  </div>
+
+                  <div className="field-group">
+                    <label>ఇమెయిల్ / వాట్సాప్ నంబర్</label>
+                    <input type="text" placeholder="ఇమెయిల్ లేదా 10 అంకెల వాట్సాప్ నంబర్" value={form.email} onChange={e => set("email", e.target.value)} className={errors.email ? "error" : ""}/>
+                    {errors.email && <p className="error-msg">{errors.email}</p>}
+                  </div>
+
+                  <div className="field-group">
+                    <label>మొబైల్ నంబర్</label>
+                    <input type="tel" placeholder="10 అంకెల మొబైల్ నంబర్" value={form.phone} onChange={e => set("phone", e.target.value.replace(/\D/g,"").slice(0,10))} className={errors.phone ? "error" : ""}/>
+                    {errors.phone && <p className="error-msg">{errors.phone}</p>}
+                  </div>
+
+                  <div className="field-group">
+                    <label>సాధన / ఉద్దేశ్యం — {TAB_LABELS[activeTab]}</label>
+                    <select value={form.seva} onChange={e => set("seva", e.target.value)} className={errors.seva ? "error" : ""}>
+                      <option value="">{TAB_LABELS[activeTab]} సేవను ఎంచుకోండి…</option>
+                      {TAB_SEVA_OPTIONS[activeTab].map(o => (
+                        <option key={o.value} value={o.value}>{o.label}</option>
+                      ))}
+                    </select>
+                    {errors.seva && <p className="error-msg">{errors.seva}</p>}
+                  </div>
+
+                  <div className="field-group">
+                    <label>సహకార మొత్తం (₹)</label>
+                    <div className="amount-presets">
+                      {PRESET_AMOUNTS.map(a => (
+                        <button key={a} className={`preset-btn ${activePreset === a ? "active" : ""}`} onClick={() => pickPreset(a)}>
+                          ₹{a.toLocaleString("en-IN")}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="amount-display">
+                      <span className="rupee-sign">₹</span>
+                      <input type="number" placeholder="మొత్తం నమోదు చేయండి" value={form.amount} min="1" onChange={e => { set("amount", e.target.value); setActivePreset(null); }} className={errors.amount ? "error" : ""}/>
+                    </div>
+                    {errors.amount && <p className="error-msg">{errors.amount}</p>}
+                  </div>
+
+                  <button className="donate-btn" onClick={handleSubmit} disabled={loading}>
+                    {loading ? <><span className="spinner"/>ప్రాసెస్ అవుతోంది…</> : "🪔 సహకారం అందించండి"}
+                  </button>
+
+                  <p className="rp-note">Razorpay ద్వారా · UPI / కార్డులు / నెట్ బ్యాంకింగ్ అంగీకరించబడతాయి</p>
+
+
+                </>
+              )}
+            </section>
+          </main>
+
+          <footer>
+            <p>© {new Date().getFullYear()} Gayatri Peetham Trust · దీప సాధన · అన్ని హక్కులు నిల్వ చేయబడ్డాయి</p>
+          </footer>
+
+          {showConfirm && (
+            <div className="modal-backdrop" onClick={() => setShowConfirm(false)}>
+              <div className="modal-box" onClick={e => e.stopPropagation()}>
+                <h3>🙏 నమోదును నిర్ధారించండి</h3>
+                <p>చెల్లింపుకు ముందు దయచేసి క్రింది వివరాలు తనిఖీ చేయండి.</p>
+                <table className="summary-table">
+                  <tbody>
+                    <tr><td>దాతృ పేరు</td><td>{form.name}</td></tr>
+                    <tr><td>ఇమెయిల్ / వాట్సాప్</td><td>{form.email}</td></tr>
+                    <tr><td>మొబైల్</td><td>{form.phone}</td></tr>
+                    <tr><td>సాధన వేళ</td><td>{TAB_SEVA_OPTIONS[activeTab]?.find(s=>s.value===form.seva)?.label || form.seva}</td></tr>
+                    <tr><td><strong>మొత్తం మొత్తం</strong></td><td><strong>₹{Number(form.amount).toLocaleString("en-IN")}</strong></td></tr>
+                  </tbody>
+                </table>
+                <div className="modal-actions">
+                  <button className="btn-cancel" onClick={() => setShowConfirm(false)}>సవరించు</button>
+                  <button className="btn-confirm" onClick={processPayment}>చెల్లించండి 🙏</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
